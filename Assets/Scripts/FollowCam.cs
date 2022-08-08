@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowCam : MonoBehaviour
-{
+public class FollowCam : MonoBehaviour {
     [Header("Set in Inspector")]
     [SerializeField] private float _easing = 0.05f;
     [SerializeField] private Vector2 _minXY = Vector2.zero;
@@ -12,21 +9,19 @@ public class FollowCam : MonoBehaviour
 
     private float _camZ;
 
-    private void Awake()
-    {
+    private void Awake() {
         _camZ = transform.position.z;
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         Vector3 destination;
 
-        if(POI == null) {
+        if (POI == null) {
             destination = Vector3.zero;
         } else {
             destination = POI.transform.position;
-            if(POI.CompareTag("Projectile")){
-                if(POI.GetComponent<Rigidbody>().IsSleeping()){
+            if (POI.CompareTag("Projectile")) {
+                if (POI.GetComponent<Rigidbody>().IsSleeping()) {
                     POI = null;
                     return;
                 }

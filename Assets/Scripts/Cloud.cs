@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cloud : MonoBehaviour
-{
+public class Cloud : MonoBehaviour {
     [Header("Set in Inspector")]
     [SerializeField] private GameObject _cloudSphere;
     [SerializeField] private int _numSphereMin = 6;
@@ -16,13 +14,11 @@ public class Cloud : MonoBehaviour
 
     private List<GameObject> _spheres;
 
-    private void Start()
-    {
+    private void Start() {
         _spheres = new List<GameObject>();
 
         int num = Random.Range(_numSphereMin, _numSphereMax);
-        for (int i = 0; i < num; i++)
-        {
+        for (int i = 0; i < num; i++) {
             GameObject sp = Instantiate(_cloudSphere);
             _spheres.Add(sp);
             Transform spTrans = sp.transform;
@@ -46,18 +42,14 @@ public class Cloud : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
             Restart();
         }
     }
 
-    private void Restart()
-    {
-        foreach(GameObject sp in _spheres)
-        {
+    private void Restart() {
+        foreach (GameObject sp in _spheres) {
             Destroy(sp);
         }
         Start();

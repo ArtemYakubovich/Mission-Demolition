@@ -1,8 +1,6 @@
-using System.Collections;
 using UnityEngine;
 
-public class CloudCrafter : MonoBehaviour
-{
+public class CloudCrafter : MonoBehaviour {
     [Header("Set in Inspector")]
     [SerializeField] private int _numClouds = 40;
     [SerializeField] private GameObject _cloudPrefab;
@@ -14,14 +12,12 @@ public class CloudCrafter : MonoBehaviour
 
     private GameObject[] _cloudInstances;
 
-    private void Awake()
-    {
+    private void Awake() {
         _cloudInstances = new GameObject[_numClouds];
         GameObject anchor = GameObject.Find("CloudAnchor");
 
         GameObject cloud;
-        for (int i = 0; i < _numClouds; i++)
-        {
+        for (int i = 0; i < _numClouds; i++) {
             cloud = Instantiate(_cloudPrefab);
             Vector3 cPos = Vector3.zero;
             cPos.x = Random.Range(_cloudPosMin.x, _cloudPosMax.x);
@@ -41,16 +37,13 @@ public class CloudCrafter : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        foreach(GameObject cloud in _cloudInstances)
-        {
+    private void Update() {
+        foreach (GameObject cloud in _cloudInstances) {
             float scaleVal = cloud.transform.localScale.x;
             Vector3 cPos = cloud.transform.position;
             cPos.x -= scaleVal * Time.deltaTime * _cloudSpeedMult;
 
-            if(cPos.x <= _cloudPosMin.x)
-            {
+            if (cPos.x <= _cloudPosMin.x) {
                 cPos.x = _cloudPosMax.x;
             }
             cloud.transform.position = cPos;

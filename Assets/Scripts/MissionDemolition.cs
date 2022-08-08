@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameMode
-{
+public enum GameMode {
     idle,
     playing,
     levelEnd
 }
 
-public class MissionDemolition : MonoBehaviour
-{
+public class MissionDemolition : MonoBehaviour {
     static private MissionDemolition S;
 
     [Header("Set in Inspector")]
@@ -28,8 +24,7 @@ public class MissionDemolition : MonoBehaviour
     private GameMode _mode = GameMode.idle;
     private string _showing = "Show Slingshot";
 
-    private void Start()
-    {
+    private void Start() {
         S = this;
 
         _level = 0;
@@ -37,16 +32,13 @@ public class MissionDemolition : MonoBehaviour
         StartLevel();
     }
 
-    void StartLevel()
-    {
-        if(_castle != null)
-        {
+    void StartLevel() {
+        if (_castle != null) {
             Destroy(_castle);
         }
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("Projectile");
-        foreach(GameObject pTemp in gos)
-        {
+        foreach (GameObject pTemp in gos) {
             Destroy(pTemp);
         }
 
@@ -62,44 +54,36 @@ public class MissionDemolition : MonoBehaviour
         _mode = GameMode.playing;
     }
 
-    private void UpdateGUI()
-    {
+    private void UpdateGUI() {
         _uitLevel.text = $"Level: {_level + 1} of {_levelMax}";
         _uitShots.text = $"Shots Taken: {_shotsTaken}";
     }
 
-    private void Update()
-    {
+    private void Update() {
         UpdateGUI();
 
-        if((_mode == GameMode.playing) && Goal.goalMet)
-        {
+        if ((_mode == GameMode.playing) && Goal.goalMet) {
             _mode = GameMode.levelEnd;
             SwitchView("Show Both");
             Invoke("NextLevel", 2f);
         }
     }
 
-    void NextLevel()
-    {
+    void NextLevel() {
         _level++;
-        if(_level == _levelMax)
-        {
+        if (_level == _levelMax) {
             _level = 0;
         }
         StartLevel();
     }
 
-    public void SwitchView(string eView = "")
-    {
-        if(eView == "")
-        {
+    public void SwitchView(string eView = "") {
+        if (eView == "") {
             eView = _uitButton.text;
         }
         _showing = eView;
 
-        switch(_showing)
-        {
+        switch (_showing) {
             case "Show Slingshot":
                 FollowCam.POI = null;
                 _uitButton.text = "Show Castle";
@@ -115,8 +99,7 @@ public class MissionDemolition : MonoBehaviour
         }
     }
 
-    public static void ShotFired()
-    {
+    public static void ShotFired() {
         S._shotsTaken++;
     }
 }

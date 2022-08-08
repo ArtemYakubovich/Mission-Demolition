@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Slingshot : MonoBehaviour
-{
+public class Slingshot : MonoBehaviour {
     static private Slingshot S;
 
     [Header("Set in Inspector")]
@@ -16,15 +13,14 @@ public class Slingshot : MonoBehaviour
     private bool _aimingMode;
     private Rigidbody _projectileRigidbody;
 
-    static public Vector3 LAUNCH_POS
-    {
-        get { if (S == null) return Vector3.zero;
+    static public Vector3 LAUNCH_POS {
+        get {
+            if (S == null) return Vector3.zero;
             return S._launchPosition;
         }
     }
 
-    private void Awake()
-    {
+    private void Awake() {
         S = this;
         Transform launchPointTransform = transform.Find("LaunchPoint");
         _launchPoint = launchPointTransform.gameObject;
@@ -32,18 +28,15 @@ public class Slingshot : MonoBehaviour
         _launchPosition = launchPointTransform.position;
     }
 
-    private void OnMouseEnter()
-    {
+    private void OnMouseEnter() {
         _launchPoint.SetActive(true);
     }
 
-    private void OnMouseExit()
-    {
+    private void OnMouseExit() {
         _launchPoint.SetActive(false);
     }
 
-    private void OnMouseDown()
-    {
+    private void OnMouseDown() {
         _aimingMode = true;
         _projectile = Instantiate(_prefabProjectile);
         _prefabProjectile.transform.position = _launchPosition;
@@ -51,18 +44,15 @@ public class Slingshot : MonoBehaviour
         _projectileRigidbody.isKinematic = true;
     }
 
-    private void Update()
-    {
-        if(_aimingMode)
-        {
+    private void Update() {
+        if (_aimingMode) {
             Vector3 mousePos2D = Input.mousePosition;
             mousePos2D.z = -Camera.main.transform.position.z;
             Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
 
             Vector3 mouseDelta = mousePos3D - _launchPosition;
             float maxMagnitude = GetComponent<SphereCollider>().radius;
-            if(mouseDelta.magnitude > maxMagnitude)
-            {
+            if (mouseDelta.magnitude > maxMagnitude) {
                 mouseDelta.Normalize();
                 mouseDelta *= maxMagnitude;
             }
@@ -70,8 +60,7 @@ public class Slingshot : MonoBehaviour
             Vector3 projPos = _launchPosition + mouseDelta;
             _projectile.transform.position = projPos;
 
-            if(Input.GetMouseButtonUp(0))
-            {
+            if (Input.GetMouseButtonUp(0)) {
                 _aimingMode = false;
                 _projectileRigidbody.isKinematic = false;
                 _projectileRigidbody.velocity = -mouseDelta * _velocityMult;
