@@ -6,11 +6,12 @@ public class ProjectileLine : MonoBehaviour
 {
     static public ProjectileLine S;
 
+    public GameObject Poi;
+
     [Header("Set in Inspector")]
     [SerializeField] private float _minDist = 0.1f;
 
     private LineRenderer _line;
-    private GameObject _poi;
     private List<Vector3> _points;
 
     private void Awake()
@@ -22,9 +23,9 @@ public class ProjectileLine : MonoBehaviour
     }
 
     private GameObject poi { 
-        get { return _poi; }
-        set { _poi = value;
-        if(_poi != null)
+        get { return Poi; }
+        set { Poi = value;
+        if(Poi != null)
             {
                 _line.enabled = false;
                 _points = new List<Vector3>();
@@ -33,16 +34,16 @@ public class ProjectileLine : MonoBehaviour
         }
     }
 
-    private void Clear()
+    public void Clear()
     {
-        _poi = null;
+        Poi = null;
         _line.enabled = false;
         _points = new List<Vector3>();
     }
 
     private void AddPoint()
     {
-        Vector3 pt = _poi.transform.position;
+        Vector3 pt = Poi.transform.position;
         if(_points.Count > 0 && (pt - LastPoint).magnitude < _minDist){
             return;
         }

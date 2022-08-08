@@ -67,6 +67,9 @@ public class Slingshot : MonoBehaviour
                 mouseDelta *= maxMagnitude;
             }
 
+            Vector3 projPos = _launchPosition + mouseDelta;
+            _projectile.transform.position = projPos;
+
             if(Input.GetMouseButtonUp(0))
             {
                 _aimingMode = false;
@@ -74,6 +77,8 @@ public class Slingshot : MonoBehaviour
                 _projectileRigidbody.velocity = -mouseDelta * _velocityMult;
                 FollowCam.POI = _projectile;
                 _projectile = null;
+                MissionDemolition.ShotFired();
+                ProjectileLine.S.Poi = _projectile;
             }
         }
     }
